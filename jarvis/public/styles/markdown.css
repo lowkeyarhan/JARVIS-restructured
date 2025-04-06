@@ -65,9 +65,9 @@
 
 .markdown-content ul,
 .markdown-content ol {
-  margin-top: 0;
+  /* margin-top: 0; */
   margin-bottom: 1rem;
-  padding-left: 2rem;
+  padding-left: 1.25rem;
 }
 
 .markdown-content li {
@@ -251,4 +251,10 @@
 
 .copy-feedback {
   animation: fadeInOut 1.5s forwards;
+}
+
+@media (max-width: 1000px) {
+  .markdown-content p {
+    margin-bottom: 0px;
+  }
 }

@@ -2,22 +2,62 @@
  * Adjust the height of the textarea based on content
  * @param {HTMLElement} textarea - The textarea element
  */
+// Store previous content length to check for significant changes
+const prevContentLength = { value: 0 };
+let debounceTimer = null;
+
 export function adjustTextareaHeight(textarea) {
   if (!textarea) return;
 
   const defaultHeight = window.innerWidth <= 1000 ? "50px" : "40px";
 
-  // Reset the height first to recalculate scrollHeight correctly
-  textarea.style.height = "auto";
+  // Clear any pending debounce
+  if (debounceTimer) {
+    clearTimeout(debounceTimer);
+  }
 
-  // If textarea is empty, set to default height
+  // If textarea is empty, set to default height immediately
   if (!textarea.value.trim()) {
     textarea.style.height = defaultHeight;
+    prevContentLength.value = 0;
     return;
   }
 
-  // Otherwise adjust height based on content, max 150px
-  textarea.style.height = `${Math.min(textarea.scrollHeight, 150)}px`;
+  // Check if content length is significantly different than previous
+  // or if content exceeds visible area significantly
+  const currentLength = textarea.value.length;
+  const contentChange = Math.abs(currentLength - prevContentLength.value);
+  const hasNewlines = textarea.value.includes("\n");
+
+  // If very short content (typing first few chars), don't resize yet
+  if (currentLength < 5 && !hasNewlines) {
+    return;
+  }
+
+  // Immediate resize for significant changes like new lines or paste operations
+  if (
+    hasNewlines ||
+    contentChange > 10 ||
+    textarea.scrollHeight > parseInt(textarea.style.height || defaultHeight)
+  ) {
+    // Reset the height first to recalculate scrollHeight correctly
+    textarea.style.height = "auto";
+
+    // Adjust height based on content, max 150px
+    textarea.style.height = `${Math.min(textarea.scrollHeight, 150)}px`;
+    prevContentLength.value = currentLength;
+    return;
+  }
+
+  // For small changes, debounce the resize
+  debounceTimer = setTimeout(() => {
+    // Reset the height first to recalculate scrollHeight correctly
+    textarea.style.height = "auto";
+
+    // Adjust height based on content, max 150px
+    textarea.style.height = `${Math.min(textarea.scrollHeight, 150)}px`;
+    prevContentLength.value = currentLength;
+  }, 300); // Wait 300ms before resizing for small changes
 }
 
 /**

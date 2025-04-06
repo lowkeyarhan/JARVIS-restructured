@@ -916,13 +916,13 @@ p code {
     padding: 20px 10px 10px 10px;
     border-radius: 15px;
     margin: 0px auto 0px auto;
-    min-height: initial;
+    /* min-height: initial; */
     position: initial;
   }
 
   .message.user {
     border-radius: 15px 15px 0px 15px;
-    padding: 10px 15px 0px 15px;
+    padding: 10px 15px 10px 15px;
     max-width: 80%;
     font-size: 14px;
     border-left: 1.25px solid var(--primary-blue);
