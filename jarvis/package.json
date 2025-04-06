@@ -1,0 +1,27 @@
+{
+  "name": "jarvis",
+  "version": "1.0.0",
+  "description": "AI assistant built to comfort and assist",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "build": "webpack --mode production",
+    "watch": "webpack --watch --mode development"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dompurify": "^3.2.5",
+    "dotenv": "^16.4.7",
+    "express": "^5.1.0",
+    "marked": "^15.0.7"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "babel-loader": "^9.2.1",
+    "nodemon": "^3.1.9",
+    "webpack": "^5.98.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
